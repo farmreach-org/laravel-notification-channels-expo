@@ -40,16 +40,22 @@ class ExpoChannel
     public function send($notifiable, Notification $notification)
     {
         if (! ($to = $notifiable->routeNotificationFor('expo'))) {
-            throw CouldNotSendNotification::noValidDestination($notifiable);
+            // throw CouldNotSendNotification::noValidDestination($notifiable);
+            // seriously, why throw?
+            return;
         }
 
         if (! method_exists($notification, 'toExpo')) {
-            throw CouldNotSendNotification::undefinedMethod($notification);
+            // throw CouldNotSendNotification::undefinedMethod($notification);
+            // seriously, why throw?
+            return;
         }
 
         /** @var ExpoMessage $message */
-        if (! ($message = $notification->toExpo($notification)) instanceof ExpoMessage) {
-            throw CouldNotSendNotification::couldNotCreateMessage($notification);
+        if (! ($message = $notification->toExpo($notifiable)) instanceof ExpoMessage) {
+            // throw CouldNotSendNotification::couldNotCreateMessage($notification);
+            // seriously, why throw?
+            return;
         }
 
         if (! is_array($to)) {
